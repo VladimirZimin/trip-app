@@ -7,6 +7,7 @@ import WeatherPanel from "../WeatherPanel/WeatherPanel";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
+import Modal from "components/Modal/Modal";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCdolRheLF8KwiowVe_rHwOTG_grI8wysE",
@@ -95,10 +96,16 @@ const Trip = () => {
         {user ? (
           <button onClick={handleLogout}>Выйти</button>
         ) : (
-          <button onClick={handleLogin}>Войти с Google</button>
+          <Modal show={true}>
+            <button onClick={handleLogin}>Войти с Google</button>
+            <div className="login-message">
+              Войдите, чтобы увидеть ваши поездки
+            </div>
+          </Modal>
         )}
       </div>
-      {user ? (
+
+      {user && (
         <div className="content">
           <div className="left-panel">
             <TripList
@@ -130,8 +137,6 @@ const Trip = () => {
             <TripDetails trip={selectedTrip} />
           </div>
         </div>
-      ) : (
-        <div className="login-message">Войдите, чтобы увидеть ваши поездки</div>
       )}
     </div>
   );

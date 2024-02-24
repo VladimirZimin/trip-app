@@ -84,6 +84,10 @@ const WeatherPanel = ({ selectedTrip }) => {
               <p>Влажность: {weatherForecast[currentDayIndex].humidity}%</p>
             </li>
           </ul>
+
+          {weatherForecastToday.days.map((item) =>
+            console.log(item.description)
+          )}
         </div>
       ) : (
         <p>Прогноз погоды недоступен для выбранной поездки</p>
