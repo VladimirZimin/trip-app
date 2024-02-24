@@ -1,4 +1,10 @@
 import React, { useState } from "react";
+import { createPortal } from "react-dom";
+
+import style from "./AddTripModal.module.css";
+import Modal from "components/Modal/Modal";
+
+const modalRoot = document.querySelector("#modal-root");
 
 const AddTripModal = ({ show, onClose, onAddTrip }) => {
   const [city, setCity] = useState("");
@@ -28,34 +34,64 @@ const AddTripModal = ({ show, onClose, onAddTrip }) => {
     onClose();
   };
 
-  return (
-    <div className="modal" style={{ display: show ? "block" : "none" }}>
-      <div className="modal-content">
-        <span className="close" onClick={onClose}>
-          &times;
-        </span>
-        <h2>Добавить новую поездку</h2>
-        <label>Город:</label>
-        <input
-          type="text"
+  return createPortal(
+    <Modal show={show}>
+      <div className={style.modalHeader}>
+        <h2>Create trip</h2>
+        <button
+          className={style.close}
+          type="button"
+          onClick={onClose}
+        ></button>
+      </div>
+
+      <div className={style.modalBody}>
+        <label htmlFor="select">City</label>
+        <select
+          name="city"
           value={city}
           onChange={(e) => setCity(e.target.value)}
-        />
-        <label>Дата начала:</label>
+          id="select"
+        >
+          <option disabled={true} value="">
+            Please select a city
+          </option>
+          <option value="London">London</option>
+          <option value="Berlin">Berlin</option>
+          <option value="Tokyo">Tokyo</option>
+          <option value="Barcelona">Barcelona</option>
+          <option value="Rome">Rome</option>
+          <option value="Warsaw">Warsaw</option>
+          <option value="Budapest">Budapest</option>
+        </select>
+
+        <label>Start date </label>
         <input
           type="date"
           value={startDate}
           onChange={(e) => setStartDate(e.target.value)}
+          placeholder="Select date"
         />
-        <label>Дата окончания:</label>
+
+        <label>End date</label>
         <input
           type="date"
           value={endDate}
           onChange={(e) => setEndDate(e.target.value)}
+          placeholder="Select date"
         />
-        <button onClick={handleAddTrip}>Готово</button>
       </div>
-    </div>
+
+      <div className={style.modalFooter}>
+        <button type="button" onClick={onClose}>
+          Cancel
+        </button>
+        <button type="button" onClick={handleAddTrip}>
+          Save
+        </button>
+      </div>
+    </Modal>,
+    modalRoot
   );
 };
 

@@ -3,6 +3,7 @@ import TripList from "../TripList/TripList";
 import TripDetails from "../TripDetails/TripDetails";
 import AddTripModal from "../AddTripModal/AddTripModal";
 import WeatherPanel from "../WeatherPanel/WeatherPanel";
+
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";

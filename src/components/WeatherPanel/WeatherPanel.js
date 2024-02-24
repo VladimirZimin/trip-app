@@ -2,20 +2,41 @@ import React, { useState, useEffect } from "react";
 
 const WeatherPanel = ({ selectedTrip }) => {
   const [weatherForecast, setWeatherForecast] = useState([]);
+  const [weatherForecastToday, setWeatherForecastToday] = useState([]);
   const [currentDayIndex, setCurrentDayIndex] = useState(0);
 
   useEffect(() => {
     const fetchWeatherForecast = async () => {
       if (selectedTrip) {
-        const apiKey = "RCQSG53F5KP27KGDYXZWL8DM9"; // Вставьте ваш API ключ
+        const apiKey = "RCQSG53F5KP27KGDYXZWL8DM9";
         const startDate = selectedTrip.startDate;
         const endDate = selectedTrip.endDate;
-        const apiUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${selectedTrip.city}/${startDate}/${endDate}?unitGroup=metric&include=days&key=${apiKey}`;
+        const apiUrlDate = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${selectedTrip.city}/${startDate}/${endDate}?unitGroup=metric&include=days&key=${apiKey}`;
 
         try {
-          const response = await fetch(apiUrl);
+          const response = await fetch(apiUrlDate);
           const data = await response.json();
           setWeatherForecast(data.days);
+        } catch (error) {
+          console.error("Error fetching weather forecast:", error);
+        }
+      }
+    };
+
+    fetchWeatherForecast();
+  }, [selectedTrip]);
+
+  useEffect(() => {
+    const fetchWeatherForecast = async () => {
+      if (selectedTrip) {
+        const apiKey = "RCQSG53F5KP27KGDYXZWL8DM9";
+
+        const apiUrlToday = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${selectedTrip.city}/today?unitGroup=metric&include=days&key=${apiKey}`;
+
+        try {
+          const response = await fetch(apiUrlToday);
+          const data = await response.json();
+          setWeatherForecastToday(data);
         } catch (error) {
           console.error("Error fetching weather forecast:", error);
         }
